@@ -18,6 +18,7 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
 
 ## The Minimum Viable Product Plan
 
+ * Get an RV32 emulator working so we can examine and work with TinyCC building targets on a regular PC, so we don't need an ESP32-C3
  * Make TinyCC able to target the ESP32-C3.
  * Compile TinyCC to WASM with Clang, and the toolset discussed in rawdraw wasm.
  * Build an IDF project, which includes the HTTP server.
@@ -44,3 +45,12 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
  * Potentially use CNLohr's IP stack for way lower latency back-and-forth comms.
  * Make sure entire system + user applicaiton to fit into bottom 1MB of flash.
  * Have libraries for working with lots of devices.
+ * Support other RISC-V devices.
+
+## How you can help
+
+* If someone can mock-up what the GUI could look like notionally.
+* If someone could frame up how we can diagram out how the system would fit together.
+* If someone can work on getting an emulator setup working for RV32.
+* If someone can work on adding a `-m32` feature for TinyCC's riscv-gen.c.
+* If someone can work on getting TinyCC compiling for WASM.
