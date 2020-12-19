@@ -61,6 +61,16 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
  * Join the Discord and comment!
 
 
+## Inspiration
+
+Some have pointed out a few projects that would be inspiring to this.
+
+Cloud 9 IDE:
+![Cloud9 IDE](https://d1.awsstatic.com/product-marketing/Tulip/Screenshots_tulip_03_1x.8dd9da76bd4975e09f640b73d4fecb9848c03031.png) 
+
+Arduino IDE:
+![Arduino IDE](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Arduino_IDE_-_Blink.png/1024px-Arduino_IDE_-_Blink.png)
+
 ## Comments from Gelakinetic
 For the GUI:
  * tree-based file navigation pane
