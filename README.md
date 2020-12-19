@@ -46,6 +46,8 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
  * Make sure entire system + user applicaiton to fit into bottom 1MB of flash.
  * Have libraries for working with lots of devices.
  * Support other RISC-V devices.
+ * Support code hot-loading.
+ * Make a minecraft server you can edit while it's running minecraft!
 
 ## How you can help
 
