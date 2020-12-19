@@ -2,6 +2,8 @@
 
 An **PLANNED** in-browser integrated development platform for the ESP32-C3, a new microcontroller from Espressif, which boasts a 160 MHz RISC-V processor.  Currently in the first stage of planning - this project may or may not go into production.
 
+We are in request for comment phase. Please discuss here on discord: https://discord.gg/CCeyWyZ or (less ideal) in issues on this project.
+
 ## The Idea
 
 Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, for a moment, if it lived entirelly within a webpage that was served up from the ESP32-C3.  A whole IDE, complete with compiler and debugger, which could compile code to run natively on the ESP32-C3, push the code to the device and debug it remotely.  Just imagine if you could have something like Arduino, but you need not install any applications on your PC.  No serial ports to mess with, no bloated and complicated code download procedure.
