@@ -2,7 +2,7 @@
 
 An **PLANNED** in-browser IDE for the ESP32-C3 self-contained on the ESP32-C3, a new microcontroller from Espressif, which boasts a 160 MHz RISC-V processor.  Currently in the first stage of planning - this project may or may not go into production.
 
-We are in request for comment phase. Please discuss here on discord: https://discord.gg/CCeyWyZ or (less ideal) in issues on this project.
+We are in **request for comment** phase. Please discuss here on discord: https://discord.gg/CCeyWyZ or (less ideal) in issues on this project.
 
 ## The Idea
 
