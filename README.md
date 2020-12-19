@@ -53,8 +53,27 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
 
 ## How you can help
 
-* If someone can mock-up what the GUI could look like notionally.
-* If someone could frame up how we can diagram out how the system would fit together.
-* If someone can work on getting an emulator setup working for RV32.
-* If someone can work on adding a `-m32` feature for TinyCC's riscv-gen.c.
-* If someone can work on getting TinyCC compiling for WASM.
+ * If someone can mock-up what the GUI could look like notionally.
+ * If someone could frame up how we can diagram out how the system would fit together.
+ * If someone can work on getting an emulator setup working for RV32.
+ * If someone can work on adding a `-m32` feature for TinyCC's riscv-gen.c.
+ * If someone can work on getting TinyCC compiling for WASM.
+ * Join the Discord and comment!
+
+
+## Comments from Gelakinetic
+For the GUI:
+ * tree-based file navigation pane
+   * Response: The might or might not make sense, we may not want to allow for very complex structures. Though the idea of being able to work within a normal FS is attractive.
+ * regex search through all files
+   * Response: I think it would make sense to download all files to the web browser upon connection with the ESP.
+ * clickable compilation error/warning list that jumps to the suspect src
+   * Response: Yes.  This is excellent, and should also be easy to squiggily underline since compilation is so easy. 
+ * syntax highlighting
+   * Response: Yes.  This is excllent.
+ * ctrl+click on variables/function so to jump to declaration
+   * Response: Yes.  This is excellent.
+ * not really GUI related, but what about vcs/git integration? i'm assuming all src files are saved on the c3?
+   * Response: Saved on-device, though, I think it would be cool if someone were to add a github module to the system.
+ * for stretch goals, autocomplete options would be swell + so would tooltips built from doxygen
+   * Response: Recommend TinyCC used for basic reflection, to point to line number for symbols - use JS or C browser-based module to perform parsing of Doxygen-style comments.
