@@ -8,6 +8,20 @@ We are in **request for comment** phase. Please discuss here on discord: https:/
 
 Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, for a moment, if it lived entirelly within a webpage that was served up from the ESP32-C3.  A whole IDE, complete with compiler and debugger, which could compile code to run natively on the ESP32-C3, push the code to the device and debug it remotely.  Just imagine if you could have something like Arduino, but you need not install any applications on your PC.  No serial ports to mess with, no bloated and complicated code download procedure.
 
+```AsciiDoc
+
+ ++++++++++++          .+++++++++++.   HTTP     +---------+
+ + Test 1   +  ------> | Test 2    | ---------> | Test 3  |
+ ++++++++++++          '+++++++++++'            +---------+
+                             |
+                             |
+                             |
+ /----------\           ++++++++++++
+ | Test3B   | <======== + Test 2B  +
+ \----------/           ++++++++++++
+
+```
+
 ## The Background
 
  * The [ESP32-C3](https://www.espressif.com/en/news/ESP32_C3) has an RV32-IMC enabled processor, meaning it's pretty stripped down but has support for the base RV32 ISA + Multiply / Divide + Condensed instructions.
