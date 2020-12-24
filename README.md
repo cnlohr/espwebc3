@@ -66,6 +66,11 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
  * If someone can work on getting TinyCC compiling for WASM.
  * Join the Discord and comment!
 
+## The game plan so far
+
+ * Someone? Gets TCC To output 32-bit RISC-V.
+ * Charles builds the system on Linux, developing the front end.
+ * Charles targets TCC to Webasm.
 
 ## Inspiration
 
