@@ -21,7 +21,7 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
  | |  |                  |          | |  |Javascript Code       | |  Source      Editor                    | |
  | |  |           Static Pages      | |  |  * Page Setup        | |  Files       Window                    | |
  | |  |                  |          | |  |  * Some UI           | |                                        | |
- | |  |        +---------^--------+ | |  |  * Maybe JQuery      | |                                        | |
+ | |  |        +---------^--------+ | |  |                      | |                                        | |
  | |  |        | IDF VFS          | | |  | WASM Code            | |                                        | |
  | |  |        +------^--v--------+ | |  |  * TinyCC            | | Process       Debugger / Printf        | |
  | |  |               |  |          | |  |  * Code Reflection   | | Management    or IDF Output            | |
