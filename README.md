@@ -10,16 +10,41 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
 
 ```AsciiDoc
 
- ++++++++++++          .+++++++++++.   HTTP     +---------+
- + Test 1   +  ------> | Test 2    | ---------> | Test 3  |
- ++++++++++++          '+++++++++++'            +---------+
-                             |
-                             |
-                             |
- /----------\           ++++++++++++
- | Test3B   | <======== + Test 2B  +
- \----------/           ++++++++++++
+ +------------------------------------+
+ | ESP32-C3 Hardware SOC              |
+ |                                    |
+ | +--------------------------------+ |                         +--------------------------------------------+
+ | |           FreeRTOS (on IDF)    | |                         | Browser (FF, Chrome, Edge, Safari, Etc...  |
+ | |           +------------------+ | |                         |                                            | 
+ | |  +------->| HTTP Process     |------------HTTP-----------> | +----------------------------------------+ |
+ | |  |        +---------^--------+ | |  |HTML Page             | | Web Page                               | |
+ | |  |                  |          | |  |Javascript Code       | |  Source      Editor                    | |
+ | |  |           Static Pages      | |  |  * Page Setup        | |  Files       Window                    | |
+ | |  |                  |          | |  |  * Some UI           | |                                        | |
+ | |  |        +---------^--------+ | |  |  * Maybe JQuery      | |                                        | |
+ | |  |        | IDF VFS          | | |  | WASM Code            | |                                        | |
+ | |  |        +------^--v--------+ | |  |  * TinyCC            | | Process       Debugger / Printf        | |
+ | |  |               |  |          | |  |  * Code Reflection   | | Management    or IDF Output            | |
+ | |  |         Source and Binary   | |  |  * Debugger?         | +--------------------------------------^-+ |
+ | |  |               |  |          | |  |                      | +-----------------------------------+  |   |
+ | |  |      +--------^--v--------+ | |  +<----WebSocket------> | | WebSocket WebWorker               |  v   |
+ | |  +----->| ESPWEBC3 Process   | | |     * Compiled Bins     | |  -> Process and Federate commands <->+   |
+ | |  ^      +--------------------+ | |     * Debugging         | +-----------------------------------+  |   |
+ | |  Web      |                    | |     * Process Management| +-----------------------------------+  |   |
+ | |  Socket   |--> User Process 1  | |     * Source Saving     | | TinyCC, Reflection, Debugger      |  |   |
+ | |  Data     |--> User Process 2  | |                         | | WebWorker                         <->+   |
+ | |           |--> User Process n  | |                         | +-----------------------------------+      |
+ | +--------------------------------+ |                         +--------------------------------------------|
+ +------------------------------------+
 
+  NOTE: The ESPWEBC3 portion may be emulated.       WebSockets can use a transparent OSC-like binary
+  More specifically, the ESPWEBC3 Process           protocol for minimal overhead and no additional 
+  may run on an emulated RISC-V Linux system        extra code at various layers to handle marshalling.
+  or potentially on a desktop system, where         It will allow the WebC3 Process to transparently
+  the IDF functionality is stubbed out to           handle those messages.  On the web-side they can be
+  Linux.                                            passed around easily as UInt8Arrays().  This is also
+                                                    attractive because it will be transparent to C on  
+                                                    either side.
 ```
 
 ## The Background
