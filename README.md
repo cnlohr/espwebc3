@@ -8,6 +8,45 @@ We are in **request for comment** phase. Please discuss here on discord: https:/
 
 Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, for a moment, if it lived entirelly within a webpage that was served up from the ESP32-C3.  A whole IDE, complete with compiler and debugger, which could compile code to run natively on the ESP32-C3, push the code to the device and debug it remotely.  Just imagine if you could have something like Arduino, but you need not install any applications on your PC.  No serial ports to mess with, no bloated and complicated code download procedure.
 
+```AsciiDoc
+
+ +------------------------------------+
+ | ESP32-C3 Hardware SOC              |
+ |                                    |
+ | +--------------------------------+ |                         +--------------------------------------------+
+ | |           FreeRTOS (on IDF)    | |                         | Browser (FF, Chrome, Edge, Safari, Etc...  |
+ | |           +------------------+ | |                         |                                            | 
+ | |  +------->| HTTP Process     |------------HTTP-----------> | +----------------------------------------+ |
+ | |  |        +---------^--------+ | |  |HTML Page             | | Web Page                               | |
+ | |  |                  |          | |  |Javascript Code       | |  Source      Editor                    | |
+ | |  |           Static Pages      | |  |  * Page Setup        | |  Files       Window                    | |
+ | |  |                  |          | |  |  * Some UI           | |                                        | |
+ | |  |        +---------^--------+ | |  |  * Maybe JQuery      | |                                        | |
+ | |  |        | IDF VFS          | | |  | WASM Code            | |                                        | |
+ | |  |        +------^--v--------+ | |  |  * TinyCC            | | Process       Debugger / Printf        | |
+ | |  |               |  |          | |  |  * Code Reflection   | | Management    or IDF Output            | |
+ | |  |         Source and Binary   | |  |  * Debugger?         | +--------------------------------------^-+ |
+ | |  |               |  |          | |  |                      | +-----------------------------------+  |   |
+ | |  |      +--------^--v--------+ | |  +<----WebSocket------> | | WebSocket WebWorker               |  v   |
+ | |  +----->| ESPWEBC3 Process   | | |     * Compiled Bins     | |  -> Process and Federate commands <->+   |
+ | |  ^      +--------------------+ | |     * Debugging         | +-----------------------------------+  |   |
+ | |  Web      |                    | |     * Process Management| +-----------------------------------+  |   |
+ | |  Socket   |--> User Process 1  | |     * Source Saving     | | TinyCC, Reflection, Debugger      |  |   |
+ | |  Data     |--> User Process 2  | |                         | | WebWorker                         <->+   |
+ | |           |--> User Process n  | |                         | +-----------------------------------+      |
+ | +--------------------------------+ |                         +--------------------------------------------|
+ +------------------------------------+
+
+  NOTE: The ESPWEBC3 portion may be emulated.       WebSockets can use a transparent OSC-like binary
+  More specifically, the ESPWEBC3 Process           protocol for minimal overhead and no additional 
+  may run on an emulated RISC-V Linux system        extra code at various layers to handle marshalling.
+  or potentially on a desktop system, where         It will allow the WebC3 Process to transparently
+  the IDF functionality is stubbed out to           handle those messages.  On the web-side they can be
+  Linux.                                            passed around easily as UInt8Arrays().  This is also
+                                                    attractive because it will be transparent to C on  
+                                                    either side.
+```
+
 ## The Background
 
  * The [ESP32-C3](https://www.espressif.com/en/news/ESP32_C3) has an RV32-IMC enabled processor, meaning it's pretty stripped down but has support for the base RV32 ISA + Multiply / Divide + Condensed instructions.
