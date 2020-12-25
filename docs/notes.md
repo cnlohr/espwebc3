@@ -4,7 +4,7 @@
 
  * To test with GCC, we can install `riscv64-unknown-elf-gcc` and execute it ->
 ```
-cnlohr@DESKTOP:~$ riscv64-unknown-elf-gcc test.c -o test -nostdlib -march=rv32ic -mabi=ilp32
+cnlohr@DESKTOP:~$ riscv64-unknown-elf-gcc test.c -o test -nostdlib -march=rv32imc -mabi=ilp32
 /usr/lib/riscv64-unknown-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000010054
 cnlohr@DESKTOP:~$ riscv64-unknown-elf-objdump -S test
 
