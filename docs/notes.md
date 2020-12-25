@@ -37,7 +37,7 @@ test:     file format elf32-littleriscv
 
 Disassembly of section .text:
 
-00010054 <add2>:
+00010054 <mul2>:
    10054:       02b50533                mul     a0,a0,a1
    10058:       8082                    ret
 ```
