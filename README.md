@@ -58,6 +58,7 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
  * Support other RISC-V devices.
  * Support code hot-loading.
  * Make a minecraft server you can edit while it's running minecraft!
+ * Drag-and-drop binaries to flash your ESP!
 
 ## How you can help
 
