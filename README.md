@@ -6,46 +6,15 @@ We are in **request for comment** phase. Please discuss here on discord: https:/
 
 ## The Idea
 
-Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, for a moment, if it lived entirelly within a webpage that was served up from the ESP32-C3.  A whole IDE, complete with compiler and debugger, which could compile code to run natively on the ESP32-C3, push the code to the device and debug it remotely.  Just imagine if you could have something like Arduino, but you need not install any applications on your PC.  No serial ports to mess with, no bloated and complicated code download procedure.
+Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, for a moment, if it lived entirelly within a webpage that was served up from the ESP32-C3.  A whole IDE, complete with compiler and debugger, which could compile code to run **natively** on the ESP32-C3, push the code to the device and debug it remotely.  It seems extremely attractive that we could compile C code to get NATIVE SPEEDS without a large dev environment.  Just imagine if you could have something like Arduino, but you need not install any applications on your PC.  No serial ports to mess with, no bloated and complicated code download procedure.
 
-```AsciiDoc
+![System Diagram](https://raw.githubusercontent.com/cnlohr/espwebc3/main/docs/preview_system_diagram.png)
 
- +------------------------------------+
- | ESP32-C3 Hardware SOC              |
- |                                    |
- | +--------------------------------+ |                         +--------------------------------------------+
- | |           FreeRTOS (on IDF)    | |                         | Browser (FF, Chrome, Edge, Safari, Etc...  |
- | |           +------------------+ | |                         |                                            | 
- | |  +------->| HTTP Process     |------------HTTP-----------> | +----------------------------------------+ |
- | |  |        +---------^--------+ | |  |HTML Page             | | Web Page                               | |
- | |  |                  |          | |  |Javascript Code       | |  Source      Editor                    | |
- | |  |           Static Pages      | |  |  * Page Setup        | |  Files       Window                    | |
- | |  |                  |          | |  |  * Some UI           | |                                        | |
- | |  |        +---------^--------+ | |  |                      | |                                        | |
- | |  |        | IDF VFS          | | |  | WASM Code            | |                                        | |
- | |  |        +------^--v--------+ | |  |  * TinyCC            | | Process       Debugger / Printf        | |
- | |  |               |  |          | |  |  * Code Reflection   | | Management    or IDF Output            | |
- | |  |         Source and Binary   | |  |  * Debugger?         | +--------------------------------------^-+ |
- | |  |               |  |          | |  |                      | +-----------------------------------+  |   |
- | |  |      +--------^--v--------+ | |  +<----WebSocket------> | | WebSocket WebWorker               |  v   |
- | |  +----->| ESPWEBC3 Process   | | |     * Compiled Bins     | |  -> Process and Federate commands <->+   |
- | |  ^      +--------------------+ | |     * Debugging         | +-----------------------------------+  |   |
- | |  Web      |                    | |     * Process Management| +-----------------------------------+  |   |
- | |  Socket   |--> User Process 1  | |     * Source Saving     | | TinyCC, Reflection, Debugger      |  |   |
- | |  Data     |--> User Process 2  | |                         | | WebWorker                         <->+   |
- | |           |--> User Process n  | |                         | +-----------------------------------+      |
- | +--------------------------------+ |                         +--------------------------------------------|
- +------------------------------------+
+* WebSockets can use a transparent OSC-like binary protocol for minimal overhead and no additional  xtra code at various layers to handle marshalling.  It will allow the WebC3 Process to transparently handle those messages.  On the web-side they can be passed around easily as UInt8Arrays().  This is also attractive because it will be transparent to C on either side.
+   
+* NOTE: The ESPWEBC3 portion may be emulated.  More specifically, the ESPWEBC3 Process may run on an emulated RISC-V Linux system or potentially on a desktop system, where the IDF functionality is stubbed out to Linux.
 
-  NOTE: The ESPWEBC3 portion may be emulated.       WebSockets can use a transparent OSC-like binary
-  More specifically, the ESPWEBC3 Process           protocol for minimal overhead and no additional 
-  may run on an emulated RISC-V Linux system        extra code at various layers to handle marshalling.
-  or potentially on a desktop system, where         It will allow the WebC3 Process to transparently
-  the IDF functionality is stubbed out to           handle those messages.  On the web-side they can be
-  Linux.                                            passed around easily as UInt8Arrays().  This is also
-                                                    attractive because it will be transparent to C on  
-                                                    either side.
-```
+* After optimization TinyCC should only be ~100kB gzipped, The front (HTML+Javascript+WebAssembly components) end can likely be around 120kB compressed.  The back-end may be larger, but overall, I expect the entire project to take less than 512kB.
 
 ## The Background
 
@@ -99,6 +68,11 @@ Imagine if we had an Arduino-like environment for the ESP32-C3.  But, imagine, f
  * If someone can work on getting TinyCC compiling for WASM.
  * Join the Discord and comment!
 
+## The game plan so far
+
+ * Someone? Gets TCC To output 32-bit RISC-V.
+ * Charles builds the system on Linux, developing the front end.
+ * Charles targets TCC to Webasm.
 
 ## Inspiration
 
