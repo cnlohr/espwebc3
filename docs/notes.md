@@ -26,6 +26,20 @@ Disassembly of section .text:
    1006e:       4472                    lw      s0,28(sp)
    10070:       6105                    addi    sp,sp,32
    10072:       8082                    ret
+   
+   
+cnlohr@DESKTOP-6VDBGQI:~$ riscv64-unknown-elf-gcc test.c -o test -nostdlib -march=rv32imc -mabi=ilp32 -Os
+/usr/lib/riscv64-unknown-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000010054
+cnlohr@DESKTOP-6VDBGQI:~$ riscv64-unknown-elf-objdump -S test
+
+test:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00010054 <add2>:
+   10054:       02b50533                mul     a0,a0,a1
+   10058:       8082                    ret
 ```
 
 
