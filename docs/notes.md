@@ -105,3 +105,10 @@ not been able to get it to work.
 * [ ] Get binaries to work with TinyEMU and QEMU
 * [ ] Get printing to work without newlib (i.e. without pk)
 * [ ] Integrate user binary into bbl, or figure out initialization code.
+
+
+# Appendix A: Reference Documents
+* Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
+* Assembly Manual PDF (IIT): https://shakti.org.in/docs/risc-v-asm-manual.pdf
+* Official ISA Documentation: https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMAFDQC/riscv-spec-20191213.pdf
+* List of riscv instructions: https://risc-v.guru/instructions/
