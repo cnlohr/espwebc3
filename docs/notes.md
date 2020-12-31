@@ -42,13 +42,15 @@ Disassembly of section .text:
    10058:       8082                    ret
 ```
 
-## Basic Emulator Support
+# Emulator Support
 Sam Ellicott 12-28-20
 
+## Spike Emulator
 ### Install the Emulator
 The first emulator I was able to get to work was the Official RISC-V ISA Emulator
-[Spike](https://github.com/riscv/riscv-isa-sim). (I would like to get this working with QEMU or
-TinyEMU in the future.) If you are using Arch Linux, you can install the `spike` package.
+[Spike](https://github.com/riscv/riscv-isa-sim). 
+~~(I would like to get this working with QEMU or
+TinyEMU in the future.)~~ If you are using Arch Linux, you can install the `spike` package.
 Otherwise, building the emulator is pretty straight forward, just follow the directions on the
 project github page. 
 
@@ -99,12 +101,39 @@ bbl loader
 Hello World!
 ```
 
-### Things left to do with the emulator
+## QEMU Emulator
+Sam Ellicott 12/31/20
+
+### Usage Instructions
+*NOTE: These instructions are for Arch linux*
+
+* Install QEMU for risc-v with the `qemu-arch-extra` package
+* Run `make` in the [/dev/qemu-metal](dev/qemu-metal) directory this will build
+  the elf binary.
+* Debug Instructions
+  * Start a second terminal window in the same directory.
+  * In one terminal, run `make run-gdb`. This will start QEMU in gdb server mode
+  * In the second terminal run `make gdb`. This will start gdb (in tui mode),
+    connect to QEMU, and run a few commands (commands stored in 
+    [gdb-startup-cmds](dev/qemu-metal/gdb_startup_cmds) file)
+* To run QEMU without gdb, use `make run`
+
+### Quirks
+* The program doesn't exit cleanly, so you always have to kill QEMU: `ctrl+a, x`
+
+## Things left to do with the emulator
 * [ ] Compile user code to start with bbl. There is a configuration option for this, but I have
 not been able to get it to work.
 * [ ] Get binaries to work with TinyEMU and QEMU
+  * [ ] TinyEMU
+  * [x] QEMU - 30 December 2020
 * [ ] Get printing to work without newlib (i.e. without pk)
-* [ ] Integrate user binary into bbl, or figure out initialization code.
+  * [ ] spike
+  * [ ] TinyEMU
+  * [x] QEMU - 30 December 2020
+* [x] Integrate user binary into bbl, or figure out initialization code.
+  * Kind of, QEMU works without the bbl bootloader, just bare asm initilization code
+* [ ] Work with the Espressif IDF
 
 
 # Appendix A: Reference Documents
@@ -112,3 +141,5 @@ not been able to get it to work.
 * Assembly Manual PDF (IIT): https://shakti.org.in/docs/risc-v-asm-manual.pdf
 * Official ISA Documentation: https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMAFDQC/riscv-spec-20191213.pdf
 * List of riscv instructions: https://risc-v.guru/instructions/
+* Information about riscv directives: https://embarc.org/man-pages/as/RISC_002dV_002dDirectives.html
+* Detailed steps on porting rust to riscv (mostly assembly): https://osblog.stephenmarz.com/ch1.html
