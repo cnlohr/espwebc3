@@ -107,7 +107,8 @@ Sam Ellicott 12/31/20
 ### Usage Instructions
 *NOTE: These instructions are for Arch linux*
 
-* Install QEMU for risc-v with the `qemu-arch-extra` package
+* Install QEMU for risc-v with the `qemu-arch-extra` package. You will also need
+  `riscv64-elf-gdb`
 * Run `make` in the [/dev/qemu-metal](dev/qemu-metal) directory this will build
   the elf binary.
 * Debug Instructions
