@@ -1,4 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Test</title>
+		<!-- https://coolors.co/181818-65000b-006a4e-696969-dc143c-000029 -->
+		<style>
+			/* General Formatting */
+			body         { background-color: #181818; color: #DC143C; margin: 0; padding: 0; overflow: hidden; /* Hide scrollbars */ }
+			document     { overflow: hidden; width=100%; height=100%;}
+			.idetable    { table-layout: fixed; height:100%; width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border:0px }
+			.idetd       { display: table-cell; min-width:2px; min-height:2px; white-space: nowrap; }
+			.idetdedit   { border: 0; width: 90%; min-width:200px; height: 90%; position:relative}
+			.idetdout    { border: 0; width: 100; height: 300; position:relative }
+			.idetdflist  { border: 0; width: 120; height: 100%; position:relative}
+			.idetdfmid   { border: 0; width: 1; height: 100%; position:relative}
+			.idediv      { width: 100%;  height: 100%;  margin: 0px;  padding: 0px;  border: 1px;  display:block; }
+			#resizerfl   { top: 0; right: 0; width: 5px; position: absolute; cursor: col-resize; background-color: #65000B; user-select: none; height: 100% }
+			#resizerflmid{ top: 0; right: 0; width: 5px; position: absolute; cursor: col-resize; background-color: #65000B; user-select: none; height: 100% }
+			#resizerhz   { top: 0; left: 0; height: 5px; position: absolute; cursor: row-resize; background-color: #65000B; user-select: none; width: 100% }
 
+			/* Tab System */
+			.tabbay      { overflow: hidden; border-bottom: 2px solid #65000B; width:100%;padding:0px;background-color:#000029 }
+			.tabbody     { overflow: auto; border-bottom: 0px solid #65000B; display: block } 
+			.tablinks    { background-color: inherit; float: left; border: none; outline: none; cursor: pointer;  transition: 0.3s;  color: #DC143C;  padding: 7px 7px; }
+			.tablinksA    { font-size: 100%; padding: 1px 1px; padding-right: 5px }
+			.tablinksB    { font-size: 100%; padding: 1px 1px }
+			.tablinks button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; transition: 0.3s;  color: #DC143C }
+			.tablinksB:hover { background-color: #000000; }
+			.tablinks:hover { background-color: #250005; }
+			.tablinks.active {  background-color: #45000a; }
+			.tabcontent {  display: none; padding: 2px 2px; border-top: none; } 
+
+
+			/* Editor CSS */
+			.editor { box-sizing: content-box; font-size:100%; background-color:#000029;font-family: monospace;direction: ltr; white-space: nowrap;}
+			.editorLines { cursor: text;min-height: 1px;font-family: monospace; direction: ltr; }
+			.editorLine { position:relative }
+			.editorLinesSection { position:relative; top:0px;color:#ffffff }
+			.editorNote  { position:absolute;z-index:-1;top:0px;left:0px;color:white;user-select: none;}
+			.editorGutter { float:left; white-space: normal;    height: 100%;    vertical-align: top; };
+			.editorContainer { float:left;background-color:#000029;color:#65000B; }
+			xmp { white-space: pre-wrap;  display: inline;  }
+		</style>
+		<script>
+			
 /////////////////////////////////////////////////////////////////////////////////
 // Scroll Bars
 /////////////////////////////////////////////////////////////////////////////////
@@ -339,4 +384,63 @@ function SetupDocument()
 	GenerateTab( "filelisting", "File List", "side", false, GenerateFileListing );
 	GenerateTab( "Output", "Output", "bottom", false, GenerateEditor );
 }
+		</script>
+	</head>
+	<body onLoad=SetupDocument();>
+		<table class=idetable>
+			<tr>
+				<td class="idetd idetdflist" rowspan=2>
+					<div class="idediv" >
+						<div class="tabbay" id="side_tabbay"  droppable=true >
+							&nbsp
 
+							<!-- Tabs will be loaded here -->
+						</div>
+						<div class="tabbody" id=side_tabbody>
+							<!-- Body for those tabs will be loaded here -->
+						</div>
+					</div>
+					<div id=resizerfl></div>
+				</td>
+				<td class="idetd idetdedit" id=maincontenttd>
+					<div class="idediv" >
+						<div class="tabbay" id="main_tabbay"  droppable=true >
+							&nbsp
+							<!-- Tabs will be loaded here -->
+						</div>
+						<div class="tabbody" id=main_tabbody>
+							<!-- Body for those tabs will be loaded here -->
+						</div>
+					</div>
+					<div id=resizerflmid></div>
+				</td>
+				<td class="idetd idetdfmid" id=midcontenttd rowspan=1>
+					<div class="idediv">
+						<div class="tabbay" id="mid_tabbay" droppable=true>
+							&nbsp
+
+							<!-- Tabs will be loaded here -->
+						</div>
+						<div class="tabbody" id=mid_tabbody>
+							<!-- Body for those tabs will be loaded here -->
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="idetdout idetd" id="bottomcontentid" colspan=2>
+					<div id=resizerhz></div>
+					<div class="idediv" >
+						<div class="tabbay" id="bottom_tabbay"  droppable=true>
+							&nbsp
+							<!-- Tabs will be loaded here -->
+						</div>
+						<div class="tabbody" id=bottom_tabbody>
+							<!-- Body for those tabs will be loaded here -->
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

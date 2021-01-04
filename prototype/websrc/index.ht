@@ -6,41 +6,41 @@
 		<!-- https://coolors.co/181818-65000b-006a4e-696969-dc143c-000029 -->
 		<style>
 			/* General Formatting */
-			body         { background-color: #181818; color: #DC143C; margin: 0; padding: 0;}
+			body         { background-color: #181818; color: #DC143C; margin: 0; padding: 0; overflow: hidden; /* Hide scrollbars */ }
 			document     { overflow: hidden; width=100%; height=100%;}
-			.idetable    { height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border:0px solid }
-			.idetdedit   { border: 0; width: 100%; height: 100%; min-height: 20px; min-width: 0px; position:relative}
-			.idetdout    { padding-top: 4px; border: 0; width: 100; height: 300; min-height: 20px; min-width: 0px; position:relative }
-			.idetdflist  { border: 0; width: 120; height: 100%; min-height: 20px; min-width: 100px; position:relative}
+			.idetable    { table-layout: fixed; height:100%; width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border:0px }
+			.idetd       { display: table-cell; min-width:2px; min-height:2px; white-space: nowrap; }
+			.idetdedit   { border: 0; width: 90%; min-width:200px; height: 90%; position:relative}
+			.idetdout    { border: 0; width: 100; height: 300; position:relative }
+			.idetdflist  { border: 0; width: 120; height: 100%; position:relative}
+			.idetdfmid   { border: 0; width: 1; height: 100%; position:relative}
 			.idediv      { width: 100%;  height: 100%;  margin: 0px;  padding: 0px;  border: 1px;  display:block; }
 			#resizerfl   { top: 0; right: 0; width: 5px; position: absolute; cursor: col-resize; background-color: #65000B; user-select: none; height: 100% }
+			#resizerflmid{ top: 0; right: 0; width: 5px; position: absolute; cursor: col-resize; background-color: #65000B; user-select: none; height: 100% }
 			#resizerhz   { top: 0; left: 0; height: 5px; position: absolute; cursor: row-resize; background-color: #65000B; user-select: none; width: 100% }
 
 			/* Tab System */
-			.tab         { overflow: hidden; border-bottom: 2px solid #65000B; }
+			.tabbay      { overflow: hidden; border-bottom: 2px solid #65000B; width:100%;padding:0px;background-color:#000029 }
+			.tabbody     { overflow: auto; border-bottom: 0px solid #65000B; display: block } 
 			.tablinks    { background-color: inherit; float: left; border: none; outline: none; cursor: pointer;  transition: 0.3s;  color: #DC143C;  padding: 7px 7px; }
 			.tablinksA    { font-size: 100%; padding: 1px 1px; padding-right: 5px }
 			.tablinksB    { font-size: 100%; padding: 1px 1px }
-
-			.tablinksProjectBtn { font-size: 140%; }
-			.tablinksSettingsBtn { font-size: 160%; }
-			.tablinksProject { font-size: 140%; padding: 1px 1px; position: relative; float:right; width:200px }
-			.tablinksSettings { font-size: 130%; padding: 0px 0px; position: relative;  float: right; }
-			.tablinksPlayButton { font-size: 130%; padding: 0px 0px; position: relative;  }
-			.tab button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; transition: 0.3s;  color: #DC143C }
+			.tablinks button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; transition: 0.3s;  color: #DC143C }
 			.tablinksB:hover { background-color: #000000; }
-			.tab div:hover { background-color: #250005; }
-			.tab div.active {  background-color: #45000a; }
+			.tablinks:hover { background-color: #250005; }
+			.tablinks.active {  background-color: #45000a; }
 			.tabcontent {  display: none; padding: 2px 2px; border-top: none; } 
 
 
 			/* Editor CSS */
-			.editor { box-sizing: content-box; font-size:100%; background-color:#000029; }
+			.editor { box-sizing: content-box; font-size:100%; background-color:#000029;font-family: monospace;direction: ltr; white-space: nowrap;}
 			.editorLines { cursor: text;min-height: 1px;font-family: monospace; direction: ltr; }
 			.editorLine { position:relative }
-			.editorLinesSection { position:relative; top:0px;color:#dc143c;z-index:3 }
-			.editorCursor  { block:none; position:relative;z-index:-1;top:30px;left:30px;color:white;user-select: none; -moz-user-select: none;-khtml-user-select: none;-webkit-user-select: none;-o-user-select: none; }
-			xmp { white-space: pre-wrap;  display: inline; }
+			.editorLinesSection { position:relative; top:0px;color:#ffffff }
+			.editorNote  { position:absolute;z-index:-1;top:0px;left:0px;color:white;user-select: none;}
+			.editorGutter { float:left; white-space: normal;    height: 100%;    vertical-align: top; };
+			.editorContainer { float:left;background-color:#000029;color:#65000B; }
+			xmp { white-space: pre-wrap;  display: inline;  }
 		</style>
 		<script>
 			${JAVASCRIPT_DATA}
@@ -49,97 +49,55 @@
 	<body onLoad=SetupDocument();>
 		<table class=idetable>
 			<tr>
-				<td class=idetdflist rowspan=2>
-					<div class=idediv>
-						Device Tree
+				<td class="idetd idetdflist" rowspan=2>
+					<div class="idediv" >
+						<div class="tabbay" id="side_tabbay"  droppable=true >
+							&nbsp
+
+							<!-- Tabs will be loaded here -->
+						</div>
+						<div class="tabbody" id=side_tabbody>
+							<!-- Body for those tabs will be loaded here -->
+						</div>
 					</div>
 					<div id=resizerfl></div>
 				</td>
-				<td class=idetdedit>
-					<div class=idediv>
-						<table width=100% border=0>
-							<tr>
-								<td style="width:100%;padding:0px">
-									<div class="tab">
-										<div class=tablinks>
-											<button class="tablinks tablinksPlayButton" onclick="playButton(event)">▶️&nbsp</button>
-										</div>
-										<div class=tablinks>
-											<button class="tablinksA" onclick="openTab(event, 'test.c')">test.c</button>
-											<button class="tablinksB" onclick="closeTab(event, 'test.c')">❌</button>
-										</div>
-										<div class=tablinks>
-											<button class="tablinksA" onclick="openTab(event, 'anotherfile.c')">anotherfile.c</button>
-											<button class="tablinksB" onclick="closeTab(event, 'anotherfile.c')">❌</button>
-										</div>
-										<div class=tablinks>
-											<button class="tablinksA" onclick="openTab(event, 'anotherfile.h')">anotherfile.h</button>
-											<button class="tablinksB" onclick="closeTab(event, 'anotherfile.h')">❌</button>
-										</div>
-										<div class="tablinks tablinksSettings">
-											<button class="tablinksSettingsBtn" onclick="openTab(event, '%%Settings%%')">⚙️</button>
-										</div>
-										<div class="tablinks tablinksProject">
-											<button class="tablinksProjectBtn" onclick="openTab(event, '%%Project%%')">Project</button>
-										</div>
-									</div>
-								</td>
-							</tr>
-						</table>
-
-						<!--     display: inline-block -->
-						<!-- Tab content -->
-						<div id="test.c" class="tabcontent">
-							<!-- based on https://codemirror.net/demo/complete.html --> 
-							<div class="editor">
-								<div style="float:left;background-color:#000029;color:#65000B">
-									<div class=editorGutter style="width: 29px;    white-space: normal;    height: 100%;    vertical-align: top;font-family: monospace;direction: ltr;">
-										1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>
-									</div>
-								</div>
-								<div class="editorLinesSection">
-									<!--<div id="editorCursor" class="editorCursor">▕</div>-->
-									<div class=editorLines onclick="editorClick(event);" contenteditable=true>
-										<!--<div class=editorLine>-->
-<xmp>#include <stdio.h>
-
-int main()
-{
-    printf( "Hello, world!\n" );
-}
-</xmp>
-									</div>
-								</div>
-							</div>
+				<td class="idetd idetdedit" id=maincontenttd>
+					<div class="idediv" >
+						<div class="tabbay" id="main_tabbay"  droppable=true >
+							&nbsp
+							<!-- Tabs will be loaded here -->
 						</div>
-
-						<div id="anotherfile.c" class="tabcontent">
-							<h3>Dummy</h3>
+						<div class="tabbody" id=main_tabbody>
+							<!-- Body for those tabs will be loaded here -->
 						</div>
+					</div>
+					<div id=resizerflmid></div>
+				</td>
+				<td class="idetd idetdfmid" id=midcontenttd rowspan=1>
+					<div class="idediv">
+						<div class="tabbay" id="mid_tabbay" droppable=true>
+							&nbsp
 
-						<div id="anotherfile.h" class="tabcontent">
-							<h3>Dummy</h3>
+							<!-- Tabs will be loaded here -->
 						</div>
-
-						<div id="%%Project%%" class="tabcontent">
-							<h3>Project Properties</h3>
-							<p>Bleh.</p>
-						</div>
-
-						<div id="%%Settings%%" class="tabcontent">
-							<h3>Editor Settings</h3>
-							<p>Bleh2</p>
-						</div>
-
+						<div class="tabbody" id=mid_tabbody>
+							<!-- Body for those tabs will be loaded here -->
 						</div>
 					</div>
 				</td>
 			</tr>
 			<tr>
-				<td class=idetdout>
+				<td class="idetdout idetd" id="bottomcontentid" colspan=2>
 					<div id=resizerhz></div>
-					<div class=idediv>
-						Output
+					<div class="idediv" >
+						<div class="tabbay" id="bottom_tabbay"  droppable=true>
+							&nbsp
+							<!-- Tabs will be loaded here -->
+						</div>
+						<div class="tabbody" id=bottom_tabbody>
+							<!-- Body for those tabs will be loaded here -->
+						</div>
 					</div>
 				</td>
 			</tr>
