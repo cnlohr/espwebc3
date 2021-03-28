@@ -136,6 +136,9 @@ not been able to get it to work.
   * Kind of, QEMU works without the bbl bootloader, just bare asm initilization code
 * [ ] Work with the Espressif IDF
 
+# TCC port to riscv32
+
+Start by reading the [TCC Developers Documentation](https://bellard.org/tcc/tcc-doc.html#devel)
 
 # Appendix A: Reference Documents
 * Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
