@@ -1,0 +1,3 @@
+[submodule "cntools"]
+	path = cntools
+	url = https://github.com/cnlohr/cntools

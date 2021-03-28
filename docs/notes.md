@@ -42,6 +42,32 @@ Disassembly of section .text:
    10058:       8082                    ret
 ```
 
+### Targeting TCC for WASM.
+
+```
+./configure --cc=clang --extra-cflags="-I.. -DWASM -nostdlib --target=wasm32 -flto -Oz -Wl,--lto-O3 -Wl,--no-entry -Wl,--allow-undefined -Wl,--import-memory"
+
+clang -o tcc.o -c tcc.c -DCONFIG_TRIPLET="\"x86_64-linux-gnu\"" -DTCC_TARGET_X86_64        -DONE_SOURCE=0 -I.. -DWASM -nostdlib --target=wasm32 -flto -Oz -Wl,--lto-O3 -Wl,--no-entry -Wl,--allow-undefined -Wl,--import-memory -Wdeclaration-after-statement -fno-strict-aliasing -fheinous-gnu-extensions -Wno-pointer-sign -Wno-sign-compare -Wno-unused-result -Wno-string-plus-int -I. 
+clang: warning: -Wl,--lto-O3: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: -Wl,--no-entry: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: -Wl,--allow-undefined: 'linker' input unused [-Wunused-command-line-argument]
+clang: warning: -Wl,--import-memory: 'linker' input unused [-Wunused-command-line-argument]
+In file included from tcc.c:21:
+./tcc.h:29:10: fatal error: 'stdlib.h' file not found
+#include <stdlib.h>
+         ^~~~~~~~~~
+1 error generated.
+make: *** [Makefile:229: tcc.o] Error 1
+
+```
+
+
+### TinyCC Compiler Explorer Support godbolt.org
+
+https://github.com/compiler-explorer/compiler-explorer/issues/246
+
+
+
 # Emulator Support
 Sam Ellicott 12-28-20
 
