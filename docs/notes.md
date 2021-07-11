@@ -166,6 +166,20 @@ not been able to get it to work.
 
 Start by reading the [TCC Developers Documentation](https://bellard.org/tcc/tcc-doc.html#devel)
 
+## Converting between TCC and riscv registers
+
+### Integer Register Mapping
+| Integer Register | risv-v register | tcc register |
+|:-----------------|:---------------:|:------------:|
+|  Return Address  | 1               |     17       |
+|   Stack Pointer  | 2               |     18       |
+| function arg reg | 10 - 17         | 0 - 7        |
+
+### Floating-point Register Mapping
+| Integer Register   | risv-v register | tcc register |
+|:-------------------|:---------------:|:------------:|
+| floating-point reg | 10 - 17         | 8 - 16       |
+
 # Appendix A: Reference Documents
 * Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
 * Assembly Manual PDF (IIT): https://shakti.org.in/docs/risc-v-asm-manual.pdf
