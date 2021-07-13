@@ -162,6 +162,28 @@ not been able to get it to work.
   * Kind of, QEMU works without the bbl bootloader, just bare asm initilization code
 * [ ] Work with the Espressif IDF
 
+# Notes on using Dr. Wolf's [MDK suite](https://github.com/cpq/mdk)
+Sam Ellicott: 07/11/21
+
+* Made a launch.mkd file to add the exports required for the development kit
+* Arch uses riscv64-elf as its prefix for the riscv compiler for bare metal
+* First error encountered is `#include <sdk.h>` not found
+  * This was caused by not setting the right `MDK` environment variable
+* When using `esputil` I get an error "Error Connecting"
+* Test binaries are not running when flashed with the regular `esptool` utility
+  * Problem with default flash parameters and boot config stuff
+  * Need to set the chip id to 5 (offset 12 in the hex file)
+  * Need to set the chip revision number to 2 offset 14 in the hex file
+  * Need to set the chip flash mode to DIO 0x021f in offset 2, 3
+  * first 16 bytes `e9 02 02 1f 00 04 38 40 ee 00 00 00 05 00 02 00`
+  * Current workaround
+```
+xxd -p -g1 examples/c3ws2812/build/firmware.bin \
+| sed '1c e902021f00043840ee0000000500020000000000000000010080c83fe000' \
+| xxd -r -p > firmware.bin && \
+python -m esptool --port /dev/ttyUSB0 write_flash 0x0000 firmware.bin
+```
+
 # TCC port to riscv32
 
 Start by reading the [TCC Developers Documentation](https://bellard.org/tcc/tcc-doc.html#devel)
