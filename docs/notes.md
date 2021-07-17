@@ -217,7 +217,8 @@ Start by reading the [TCC Developers Documentation](https://bellard.org/tcc/tcc-
 
 Samuel Ellicott 07/17/21
 Now that flashing to the device works, I am ready to try hacking on tcc using the test files as 
-working code.
+working code. The next step is to convince the code to compile with the regular riscv64-tcc.
+After that, I can start modifying tcc to produce riscv32 code.
 
 # Appendix A: Reference Documents
 * Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
