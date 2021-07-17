@@ -177,12 +177,25 @@ Sam Ellicott: 07/11/21
   * Need to set the chip flash mode to DIO 0x021f in offset 2, 3
   * first 16 bytes `e9 02 02 1f 00 04 38 40 ee 00 00 00 05 00 02 00`
   * Current workaround
-```
-xxd -p -g1 examples/c3ws2812/build/firmware.bin \
-| sed '1c e902021f00043840ee0000000500020000000000000000010080c83fe000' \
-| xxd -r -p > firmware.bin && \
-python -m esptool --port /dev/ttyUSB0 write_flash 0x0000 firmware.bin
-```
+    ```bash
+    xxd -p -g1 examples/c3ws2812/build/firmware.bin \
+    | sed '1c e902021f00043840ee0000000500020000000000000000010080c83fe000' \
+    | xxd -r -p > firmware.bin && \
+    python -m esptool --port /dev/ttyUSB0 write_flash 0x0000 firmware.bin
+    ```
+  * Better workaround
+    ```bash
+    #!/bin/bash
+    flash_mode=021f
+    chip_id=05
+    chip_rev=02
+    xxd -p $1/build/firmware.bin |
+    sed "1s/^\\(.\{4\}\\).\{4\}/\1$flash_mode/;
+        1s/^\\(.\{24\}\\).\{2\}/\1$chip_id/;
+        1s/^\\(.\{28\}\\).\{2\}/\1$chip_rev/" - |
+    xxd -p -r - > $1/build/firmware.bin
+    python -m esptool --port /dev/ttyUSB0 write_flash 0x0000 firmware.bin
+    ```
 
 # TCC port to riscv32
 
@@ -201,6 +214,10 @@ Start by reading the [TCC Developers Documentation](https://bellard.org/tcc/tcc-
 | Integer Register   | risv-v register | tcc register |
 |:-------------------|:---------------:|:------------:|
 | floating-point reg | 10 - 17         | 8 - 16       |
+
+Samuel Ellicott 07/17/21
+Now that flashing to the device works, I am ready to try hacking on tcc using the test files as 
+working code.
 
 # Appendix A: Reference Documents
 * Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
