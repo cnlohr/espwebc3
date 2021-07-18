@@ -220,6 +220,46 @@ Now that flashing to the device works, I am ready to try hacking on tcc using th
 working code. The next step is to convince the code to compile with the regular riscv64-tcc.
 After that, I can start modifying tcc to produce riscv32 code.
 
+## Notes on compiling TCC
+It probably shouldn't have surprised me but the tcc build scripts are broken.
+Compiling with the following command should change the default include and library
+search path...
+```
+../configure \
+--prefix=$HOME/.local \
+--sysincludepaths=/usr/riscv64-elf/include \
+--libpaths=/usr/riscv64-elf/lib \
+--crtprefix=/usr/riscv64-elf/lib
+make cross-riscv64
+```
+but they don't
+```
+./riscv64-tcc -print-search-dirs
+install: /home/nebk/.local/lib/tcc
+include:
+  /home/nebk/.local/lib/tcc/include
+  /usr/local/include
+  /usr/include
+libraries:
+  /usr/lib
+  /lib
+  /usr/local/lib
+libtcc1:
+  /home/nebk/.local/lib/tcc/riscv64-libtcc1.a
+crt:
+  /usr/lib
+elfinterp:
+  /lib/ld-linux-riscv64-lp64d.so.1
+```
+I patched the build scripts so that the `print_mak` function in the configure script goes to 
+`EXTRA_DEFINES` instead of `NATIVE_DEFINES` which was used in other places as well. These `EXTRA_DEFINES`
+are directly used in the compile process. I don't know if this will break anything elsewhere,
+I don't think it will.
+
+Next, I had to add a bunch of base, intrinsic type definitions (like `__INT32_TYPE__`) so that `stdint.h`
+would compile correctly. These were put in `include/tccdefs.h` in the riscv section. They were taken
+from riscv-elf-gcc.
+
 # Appendix A: Reference Documents
 * Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
 * Assembly Manual PDF (IIT): https://shakti.org.in/docs/risc-v-asm-manual.pdf
