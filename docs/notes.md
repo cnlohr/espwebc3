@@ -260,6 +260,21 @@ Next, I had to add a bunch of base, intrinsic type definitions (like `__INT32_TY
 would compile correctly. These were put in `include/tccdefs.h` in the riscv section. They were taken
 from riscv-elf-gcc.
 
+## TCC compile process
+`main` -> `tcc_add_file` -> `tcc_add_file_internal` -> `tcc_compile`
+`tcc_compile`
+1. `preprocess_start`
+2. `tcc_preprocess`
+3. `tcc_asm` or `tccgen_compile`
+4. `tccgen_finish`
+5. `preprocess_end`
+
+`tcc_asm` -> `tcc_assemble_internal`
+1. parsing loop 
+
+`tccgen_compile`
+1. `next` Get and add the next symbol to the stack
+
 # Appendix A: Reference Documents
 * Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
 * Assembly Manual PDF (IIT): https://shakti.org.in/docs/risc-v-asm-manual.pdf
