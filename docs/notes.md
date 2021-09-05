@@ -260,6 +260,15 @@ Next, I had to add a bunch of base, intrinsic type definitions (like `__INT32_TY
 would compile correctly. These were put in `include/tccdefs.h` in the riscv section. They were taken
 from riscv-elf-gcc.
 
+Updated build procedure is to add the file `config-extra.mak` into the build directory. It should have
+the following contents (at least on Arch Linux).
+
+```
+CRT-riscv64  = /usr/riscv64-elf/lib
+LIB-riscv64  = /usr/riscv64-elf/lib
+INC-riscv64  = /usr/riscv64-elf/include
+```
+
 ## TCC compile process
 `main` -> `tcc_add_file` -> `tcc_add_file_internal` -> `tcc_compile`
 `tcc_compile`
@@ -274,6 +283,23 @@ from riscv-elf-gcc.
 
 `tccgen_compile`
 1. `next` Get and add the next symbol to the stack
+
+`next`
+1. `next_nomacro` find the next token without macro substitution.
+2. 
+
+`next_nomacro`
+1. If the global variable `macro_ptr` is set, check if the macro expands to a fixed value. If it 
+    does, copy the value into the tokc (constant value) global variable. (this is done in the 
+    `tok_get` function).
+2. Otherwise eat any spaces in `macro_ptr` and make the global variable `tok` the first non-space
+    element.
+3. Read in the token with the `next_nomacro1` function.
+   1. This function does most of the parsing work, it continues looping until...
+
+## 32bit vs 64bit Binaries
+Whether 32bit or 64bit binaries are used is set by the `PTR_SIZE` variable. This is defined in the 
+`riscv64-gen.c` file and checked in the `tcc_set_linker()` function in `libtcc.c` file. 
 
 # Appendix A: Reference Documents
 * Official Assembly Manual: https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
