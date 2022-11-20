@@ -221,6 +221,24 @@ working code. The next step is to convince the code to compile with the regular 
 After that, I can start modifying tcc to produce riscv32 code.
 
 ## Notes on compiling TCC
+Make a build directory `build`
+Add a file `config-extra.mak` with the following contents
+```
+CRT-riscv64  = /usr/riscv64-elf/lib
+LIB-riscv64  = /usr/riscv64-elf/lib
+INC-riscv64  = /usr/riscv64-elf/include
+```
+This sets the include/lib/crt path for the generated binaries to be set to the (Arch Linux) newlib 
+libraries instead of the standard linux libraries. In other words, it generates a "working" cross compiler.
+
+Next, compile tcc using the following commands
+```
+../configure --prefix=$HOME/.local 
+make clean
+make riscv32-ilp32-tcc
+```
+
+### Old information - for historical purposes only
 It probably shouldn't have surprised me but the tcc build scripts are broken.
 Compiling with the following command should change the default include and library
 search path...
