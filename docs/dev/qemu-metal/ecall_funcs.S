@@ -32,7 +32,9 @@ ecall_getc:
 .global ecall_shutdown
 ecall_shutdown:
   # since we are exiting the program, we don't care about saving the ra register
-  li a7, 8 
+//  li a7, 8 
+  addi a0, zero, 0
+  addi a7, zero, 93
   ecall
 
 .global ecall_puts

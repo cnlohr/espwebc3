@@ -1,0 +1,7 @@
+export MDK=$HOME/Documents/programs/risc-v/mdk      # Points to MDK path
+#export TOOLCHAIN=$HOME/Documents/risc-v/tcc-riscv32/riscv64-tcc 
+export TOOLCHAIN=riscv64-elf
+export CC="riscv64-elf-gcc -march=rv32im -mabi=ilp32"
+export LD="riscv64-elf-gcc -march=rv32im -mabi=ilp32"
+export ARCH=ESP32C3                                 # Choices: ESP32C3, ESP32
+export PORT=/dev/ttyUSB0                            # Serial port for flashing

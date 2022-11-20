@@ -7,7 +7,7 @@
 # Made compatible with riscv-32 isa
 # Now launches C code instead of rust code
 
-.option norvc
+# .option norvc
 
 .section .data:
 
@@ -16,14 +16,11 @@
 _start:
 	# Any hardware threads (hart) that are not bootstrapping
 	# need to wait for an IPI
-	csrr	t0, mhartid
-	bnez	t0, 3f
+#	csrr	t0, mhartid
+#	bnez	t0, 3f
 	# SATP should be zero, but let's make sure
-	csrw	satp, zero
-.option push
-.option norelax
+#	csrw	satp, zero
 	la		gp, _global_pointer
-.option pop
 
   # The BSS section is expected to be zero
 	la 		a0, _bss_start
@@ -36,13 +33,19 @@ _start:
 2:
 
 # setup the stack
-la		sp, _stack_end
+#la		sp, _stack_end
+la		sp, 0x80081004
 call main
 #j asm_trap_vector
 
 3:
+call ecall_shutdown
 	wfi
 	j	3b
+
+#.local trap_str
+trap_str:
+  .asciz "Hello from the trap vector!\n"
 
 asm_trap_vector:
   # print the string on the system console then end the program
@@ -50,6 +53,3 @@ asm_trap_vector:
   call uart16550_puts
   call ecall_shutdown
 
-.local trap_str
-trap_str:
-  .asciz "Hello from the trap vector!\n"

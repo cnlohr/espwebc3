@@ -6,9 +6,11 @@ OUT      := payload.elf
 
 ASMFLAGS = -Og -g
 CFLAGS   = -Og -g
-LDFLAGS  = -nostartfiles -nostdlib
+#LDFLAGS  = -nostartfiles -nostdlib
+LDFLAGS  = -nostdlib
 
 GDB_START = gdb_startup_cmds
+GDB_START_MDK = gdb_startup_cmds_mdk
 
 OBJS := $(ASM_SRCS:.S=.o) $(C_SRCS:.c=.o)
 
@@ -18,12 +20,14 @@ CPU  = rv32
 CPUS = 1
 MEM  = 128M
 
-CC   = riscv64-elf-gcc -march=rv32imc -mabi=ilp32
+CC   ?= riscv64-elf-gcc -march=rv32imc -mabi=ilp32
+CC_gcc   = riscv64-elf-gcc -march=rv32imc -mabi=ilp32
 GDB	 = riscv64-elf-gdb 
 
 #-L.. -lbbl -lmachine  -lutil
 $(OUT): $(OBJS) virt.ld
-	$(CC) $(CFLAGS) $(LDFLAGS) -T virt.ld $(OBJS) -o payload.elf 
+	$(CC_gcc) $(CFLAGS) $(LDFLAGS) -T virt.ld $(OBJS) -o payload.elf 
+	#$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o payload.elf 
 
 clean:
 	rm $(OBJS) $(OUT) 
@@ -38,6 +42,9 @@ run-gdb: $(OUT)
 
 gdb: $(OUT)
 	$(GDB) -q -tui -x $(GDB_START)
+
+gdb-mdk: $(OUT)
+	$(GDB) -q -tui -x $(GDB_START_MDK)
 
 .S.o:
 	$(CC) $(ASMFLAGS) -c $< -o $@

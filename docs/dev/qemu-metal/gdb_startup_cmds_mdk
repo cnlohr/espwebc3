@@ -1,0 +1,6 @@
+target remote localhost:1234
+add-symbol-file ~/Documents/programs/risc-v/mdk/examples/c3ws2812/build/firmware.elf
+display /1i $pc
+b start
+b main
+layout asm
