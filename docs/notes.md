@@ -199,6 +199,63 @@ Sam Ellicott: 07/11/21
 
 # TCC port to riscv32
 
+## Compiling riscv32-tcc (Updated 2022-11-27)
+
+Install the riscv64 bare metal compiler/libraries for your system (package name may vary)
+```
+sudo pacman -S riscv64-elf-gcc
+```
+
+Download my port of riscv32 and make a build directory
+```bash
+git clone https://github.com/sellicott/tcc-riscv32.git
+cd tcc-riscv32
+mkdir build
+cd build
+```
+
+Now we need to setup a file so that the tcc build system uses the correct directories
+```bash
+echo 'CRT-riscv32-ilp32  = /usr/riscv64-elf/lib
+LIB-riscv32-ilp32  = /usr/riscv64-elf/lib
+INC-riscv32-ilp32  = $(prefix)/../include:/usr/riscv64-elf/include' > config-extra.mak
+```
+**Note: you may need to change the system riscv64 include path as this is set up for the arch riscv64 newlib library on Archlinux**
+
+Configure and compile tcc
+```bash
+../configure --prefix=$(pwd) --debug
+make riscv32-ilp32-tcc
+```:w
+
+
+Now we have our toolchain, let's compile a hello world program for qemu
+Open up the [dev/qemu-metal](./dev/qemu-metal/) directory and edit the [launch.tcc](./dev/qemu-metal/launch.tcc) file to point to the `riscv32-ilp32-tcc` binary we just compiled.
+
+file contents
+```bash
+export MDK=$HOME/Documents/programs/risc-v/mdk      # Points to MDK path
+export TOOLCHAIN=riscv64-elf
+export CC=<path to tcc>
+export LD=riscv64-elf-gcc
+export ARCH=ESP32C3                                 # Choices: ESP32C3, ESP32
+export PORT=/dev/ttyUSB0                            # Serial port for flashing
+```
+
+Now in a terminal (in the `qemu-metal` directory) run the followin commands
+```bash
+source launch.tcc # Setup paths for the makefile so that we can compile with tcc
+make clean
+make
+make run # launch qemu with the binary we just made
+```
+
+At this point we you should see `Hello World` appear in your terminal inside qemu. There is an issue that I haven't figured out that prevents qemu from closing, so exit the terminal with 
+`Ctrl+A, x`
+
+
+## Notes
+
 Start by reading the [TCC Developers Documentation](https://bellard.org/tcc/tcc-doc.html#devel)
 
 ## Converting between TCC and riscv registers
@@ -224,9 +281,9 @@ After that, I can start modifying tcc to produce riscv32 code.
 Make a build directory `build`
 Add a file `config-extra.mak` with the following contents
 ```
-CRT-riscv64  = /usr/riscv64-elf/lib
-LIB-riscv64  = /usr/riscv64-elf/lib
-INC-riscv64  = /usr/riscv64-elf/include
+CRT-riscv32-ilp32  = /usr/riscv64-elf/lib
+LIB-riscv32-ilp32  = /usr/riscv64-elf/lib
+INC-riscv32-ilp32  = $(prefix)/../include:/usr/riscv64-elf/include
 ```
 This sets the include/lib/crt path for the generated binaries to be set to the (Arch Linux) newlib 
 libraries instead of the standard linux libraries. In other words, it generates a "working" cross compiler.
@@ -284,7 +341,7 @@ the following contents (at least on Arch Linux).
 ```
 CRT-riscv64  = /usr/riscv64-elf/lib
 LIB-riscv64  = /usr/riscv64-elf/lib
-INC-riscv64  = /usr/riscv64-elf/include
+INC-riscv64  = $(pwd)/../include:/usr/riscv64-elf/include
 ```
 
 ## TCC compile process
