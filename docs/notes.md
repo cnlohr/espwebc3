@@ -226,8 +226,7 @@ Configure and compile tcc
 ```bash
 ../configure --prefix=$(pwd) --debug
 make riscv32-ilp32-tcc
-```:w
-
+```
 
 Now we have our toolchain, let's compile a hello world program for qemu
 Open up the [dev/qemu-metal](./dev/qemu-metal/) directory and edit the [launch.tcc](./dev/qemu-metal/launch.tcc) file to point to the `riscv32-ilp32-tcc` binary we just compiled.
