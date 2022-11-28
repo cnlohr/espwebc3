@@ -1,7 +1,8 @@
 target remote localhost:1234
 add-symbol-file payload.elf
 display /1i $pc
-b _start
+b start
 b main
+b uart16550_init
 layout asm
 c
